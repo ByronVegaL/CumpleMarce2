@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>¡Feliz Cuuuum Marcelo!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ff0000, #800080);
+            color: white;
+            padding: 20px;
+        }
+        #qr, #real-contador { display: none; }
+        #foto {
+            width: 300px;
+            border-radius: 15px;
+            margin: 20px auto;
+            border: 5px solid white;
+            transition: transform 0.3s;
+        }
+        #foto:hover {
+            transform: scale(1.05);
+        }
+        #mensaje {
+            font-size: 24px;
+            margin: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        #countdown {
+            font-size: 30px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>¡FELIZ CUUUUM MARCELO! 🎉</h1>
+    <img id="foto" src="https://drive.google.com/uc?export=view&id=1PAIbz1LpV5ePQ7fkCb3F4eKktWAoAM65" alt="Foto de ustedes">
+    <div id="mensaje">¡Que bacán que existas, te quiero caleta, disfruta mucho hoy día! Ya te iré a saludar por la tardecita-noche, disfruta ene, puro amor pa tí!</div>
+    
+    <div id="falso-contador">
+        <p>Tu regalo se desbloqueará en:</p>
+        <div id="falso-tiempo"></div>
+    </div>
+    
+    <div id="real-contador">
+        <p>Ahora sí, tu regalo se desbloqueará en:</p>
+        <div id="countdown"></div>
+    </div>
+    
+    <div id="qr">
+        <img src="https://drive.google.com/uc?export=view&id=1v0Jv1Vpn9loZxfHccXLF3Zvq2mHjihma" width="200">
+        <p>¡Escanea el código para resolver el acertijo!</p>
+    </div>
+
+    <script>
+        // Configuración de imágenes
+        const imagenNormal = "https://drive.google.com/uc?export=view&id=1PAIbz1LpV5ePQ7fkCb3F4eKktWAoAM65";
+        const imagenNocturna = "https://drive.google.com/uc?export=view&id=10Npx4lCB-c7XAN-uajTuaKDO8s3ijXcw";
+        const imagenBroma = "https://drive.google.com/uc?export=view&id=12wMsWrGUe7jlfQIj6mzdF4Nhh3DUuTEg";
+        const qrUrl = "https://drive.google.com/uc?export=view&id=1v0Jv1Vpn9loZxfHccXLF3Zvq2mHjihma";
+
+        // Elementos del DOM
+        const mensajeDiv = document.getElementById("mensaje");
+        const foto = document.getElementById("foto");
+        const falsoContador = document.getElementById("falso-contador");
+        const realContador = document.getElementById("real-contador");
+        
+        // Fechas importantes
+        const fechaBroma = new Date("March 27, 2025 23:00:00").getTime();
+        const fechaReal = new Date("March 29, 2025 23:00:00").getTime();
+
+        function actualizarMensaje() {
+            const ahora = new Date();
+            const hora = ahora.getHours();
+            const dia = ahora.getDate();
+            const mes = ahora.getMonth();
+            
+            // Lógica de imágenes
+            if (mes === 2 && dia === 27 && hora >= 23) {
+                foto.src = imagenBroma; // 27/mar 23:00-23:59
+            } else if (hora >= 0 && hora < 8) {
+                foto.src = imagenNocturna; // Madrugadas (00:00-8:00)
+            } else {
+                foto.src = imagenNormal; // Resto del tiempo
+            }
+
+            // Mensajes por día/hora
+            if (mes === 2 && dia === 28) {
+                if (hora >= 0 && hora < 8) mensajeDiv.textContent = "Oe estai ansioso, esperate a que termine la wea";
+                else if (hora >= 8 && hora < 12) mensajeDiv.textContent = "Buen día cachorrito, aún falta para que puedas ver tu regalo";
+                else if (hora >= 12 && hora <= 15) mensajeDiv.textContent = "Qué tengas un buen almuerzo rey";
+                else if (hora >= 15 && hora <= 19) mensajeDiv.textContent = "Que te vaya bien en el trabajo mi chan";
+                else mensajeDiv.textContent = "Oe deberías estar trabajando";
+            } 
+            else if (mes === 2 && dia === 29) {
+                if (hora >= 0 && hora < 8) mensajeDiv.textContent = "Oe estai ansioso, esperate a que termine la wea, quedan unas horas no más, anda a dormir";
+                else if (hora >= 8 && hora < 12) mensajeDiv.textContent = "Buen día cachorrito, aún falta para que puedas ver tu regalo, esperate a la noche oe";
+                else if (hora >= 12 && hora <= 15) mensajeDiv.textContent = "Qué tengas un buen almuerzo rey";
+                else if (hora >= 15 && hora <= 19) mensajeDiv.textContent = "La la la la la la la";
+                else if (hora >= 19 && hora < 22.51) mensajeDiv.textContent = "Pa pa pa pa pa pa";
+                else if (hora >= 22.51 && hora < 23) mensajeDiv.textContent = "Mira como te tengo esperando ctm";
+            }
+        }
+        
+        // Contador de broma (27/mar)
+        const bromaInterval = setInterval(() => {
+            const ahora = new Date().getTime();
+            const distancia = fechaBroma - ahora;
+            
+            if (distancia > 0) {
+                const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+                document.getElementById("falso-tiempo").innerHTML = `${horas}h ${minutos}m ${segundos}s`;
+            } else {
+                clearInterval(bromaInterval);
+                falsoContador.style.display = "none";
+                mensajeDiv.textContent = "Haha, te la creíste, vas a tener que esperar hasta el sábado";
+                setTimeout(() => {
+                    realContador.style.display = "block";
+                    iniciarContadorReal();
+                }, 3000);
+            }
+        }, 1000);
+        
+        // Contador real (29/mar)
+        function iniciarContadorReal() {
+            const realInterval = setInterval(() => {
+                const ahora = new Date().getTime();
+                const distancia = fechaReal - ahora;
+                
+                if (distancia > 0) {
+                    const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+                    const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+                    const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+                    document.getElementById("countdown").innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+                    actualizarMensaje();
+                } else {
+                    clearInterval(realInterval);
+                    document.getElementById("qr").style.display = "block";
+                    document.getElementById("countdown").innerHTML = "¡ES LA HORA!";
+                    mensajeDiv.textContent = "¡DESBLOQUEADO! ¡ESCANEA EL QR!";
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
